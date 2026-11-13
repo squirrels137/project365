@@ -196,6 +196,7 @@ function setProgressFlag(name, value = true){
   if(name === "authenticated")authenticationPassed = Boolean(value);
   if(name === "domesticAccessGranted")domesticAccessGranted = Boolean(value);
   if(name === "finalSecretUnlocked")finalSecretUnlocked = Boolean(value);
+  saveProgress();
 }
 
 function saveProgress(){
@@ -217,7 +218,11 @@ function saveProgress(){
       submitted: satisfactionSurveyState.submitted
     }
   };
-  try{localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(record))}catch(error){}
+  try{
+    window.localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(record));
+  }catch(error){
+    console.error("Project 365 progress could not be saved to localStorage.", error);
+  }
 }
 
 window.addEventListener("pagehide", () => saveProgress());
