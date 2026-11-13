@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#211d1b">
+<title>PROJECT 365 — A classified investigation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section class="access-screen navigation-screen active" id="accessScreen" aria-labelledby="accessTitle">
+  <div class="access-card">
+    <div class="access-stamp">CLASSIFIED · CASE 001</div>
+    <p class="access-kicker">Private archive · authorised investigator only</p>
+    <h1 id="accessTitle">PROJECT 365<br><span>— CLASSIFIED ACCESS —</span></h1>
+    <div class="access-rule"></div>
+    <p class="access-copy">This case file contains confidential information. Access is restricted to one authorised investigator.</p>
+    <form id="accessForm" class="access-form">
+      <label class="visually-hidden" for="accessPassword">Secret password</label>
+      <input id="accessPassword" name="password" type="password" placeholder="Enter your secret password" autocomplete="current-password" required>
+      <p class="password-hint"><i>A little nickname you use for me that melts my heart every time...</i></p>
+      <button class="btn access-button" id="accessButton" type="submit">UNLOCK CASE FILE</button>
+      <p class="access-feedback" id="accessFeedback" role="status" aria-live="polite"></p>
+    </form>
+    <div class="access-footer">PROJECT 365 · EYES ONLY</div>
+  </div>
+</section>
+
+<section class="squirrel-screen navigation-screen hidden" id="squirrelScreen" aria-labelledby="squirrelTitle" aria-hidden="true">
+  <div class="squirrel-card">
+    <div class="squirrel-stamp" aria-hidden="true">FIELD NOTE · 🐿</div>
+    <p class="squirrel-kicker">Mandatory daily briefing</p>
+    <h1 id="squirrelTitle" tabindex="-1">DAILY SQUIRREL REPORT</h1>
+    <p class="squirrel-copy">Welcome, Agent. Before proceeding with the investigation, you must complete your mandatory daily briefing.</p>
+    <div class="squirrel-video-frame">
+      <iframe src="https://www.youtube.com/embed/XEcVzoB2Vjo" title="Daily Squirrel Report — YouTube Short" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <p class="squirrel-tradition">Piccoli bimbi</p>
+    <a class="squirrel-fallback" href="https://www.youtube.com/shorts/XEcVzoB2Vjo" target="_blank" rel="noopener noreferrer">If the report won't load, open it directly on YouTube ↗</a>
+    <button class="btn squirrel-button" id="completeSquirrel" type="button">I'VE COMPLETED MY DAILY SQUIRREL BRIEFING 🐿️</button>
+    <div class="squirrel-footer">ARCHIVE ADDENDUM · STRICTLY NECESSARY RESEARCH</div>
+  </div>
+</section>
+
+<div class="site hidden sequence-site" id="siteContent" aria-hidden="true">
+  <div class="welcome-message hidden" id="welcomeMessage" role="status">Access granted. Welcome, Agent.</div>
+  <div class="topbar hidden">
+    <span>Private archive · Case 001</span>
+    <span class="stamp">Confidential</span>
+  </div>
+
+  <header class="hero hidden">
+    <div class="kicker">An anniversary investigation</div>
+    <h1>PROJECT<br>365</h1>
+    <p class="subtitle">The story of us, under investigation.</p>
+    <div class="rule"></div>
+    <p class="intro">One ordinary meeting. One first date. Three hundred and sixty-five days of evidence that something rather lovely was happening.</p>
+    <div class="hero-mark">CASE OPENED · 16 NOVEMBER 2025</div>
+  </header>
+
+  <nav class="stage-progress" id="stageProgress" aria-label="Investigation storyline">
+    <span class="stage-step active" data-chapter-indicator="1" aria-current="step"><b>01</b><small>BRIEFING</small></span>
+    <span class="stage-connector" aria-hidden="true"></span>
+    <span class="stage-step" data-chapter-indicator="2"><b>02</b><small>FIRST DATES</small></span>
+    <span class="stage-connector" aria-hidden="true"></span>
+    <span class="stage-step" data-chapter-indicator="3"><b>03</b><small>BALI</small></span>
+    <span class="stage-connector" aria-hidden="true"></span>
+    <span class="stage-step" data-chapter-indicator="4"><b>04</b><small>LIVING TOGETHER</small></span>
+    <span class="stage-connector" aria-hidden="true"></span>
+    <span class="stage-step upcoming" data-chapter-indicator="5" aria-label="Sunday, upcoming"><b>05</b><small>SUNDAY</small></span>
+    <span class="stage-connector" aria-hidden="true"></span>
+    <span class="stage-step upcoming" data-chapter-indicator="6" aria-label="Monday, upcoming"><b>06</b><small>MONDAY</small></span>
+  </nav>
+
+  <main class="sequence-main" id="sequenceMain">
+    <section class="stage-screen active" id="missionScreen" data-stage="1" aria-labelledby="briefingTitle">
+      <article class="document-card">
+        <div class="document-stamp">CLASSIFIED · DOCUMENT 001</div>
+        <p class="document-kicker">PROJECT 365 · PRIVATE CASE FILE</p>
+        <h1 id="briefingTitle" tabindex="-1">PROJECT 365<br><span>— The investigation begins. —</span></h1>
+        <div class="document-rule"></div>
+        <p class="document-label">Mission briefing</p>
+        <p class="document-copy">Almost one year ago, we crossed paths and somehow became each other's favourite person.</p>
+        <p class="document-copy">Your mission is to reconstruct the beginning of this story. There will be clues, memories, and at least one excellent meal. Your mission coordinator reserves the right to request hugs at any point.</p>
+        <button class="btn stage-button" id="acceptBtn" type="button">ACCEPT THE MISSION</button>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden" id="interrogation" data-stage="2" aria-labelledby="interrogationTitle" aria-hidden="true">
+      <article class="document-card interrogation-card">
+        <div class="document-stamp">CLASSIFIED · INTERROGATION 001</div>
+        <p class="document-kicker">A MEMORY UNDER REVIEW</p>
+        <h1 id="interrogationTitle" tabindex="-1">First dates, first impressions</h1>
+        <div class="document-rule"></div>
+        <p class="document-copy interrogation-question">How old did I think you were when we first went on a date?</p>
+        <div class="answer-list" id="answerList" role="group" aria-label="Choose your answer">
+          <button class="answer-option" type="button" data-answer="20">20</button>
+          <button class="answer-option" type="button" data-answer="24">24</button>
+          <button class="answer-option" type="button" data-answer="30">30</button>
+        </div>
+        <p class="quiz-feedback" id="quizFeedback" role="status" aria-live="polite"></p>
+        <div class="quiz-success hidden" id="quizSuccess" aria-live="polite">
+          <h2>30!</h2>
+          <p>It was credible, though, until ID showed otherwise</p>
+          <button class="btn stage-button" id="proceedInterrogation2" type="button">PROCEED TO INTERROGATION 002</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden" id="interrogationTwo" data-stage="3" aria-labelledby="interrogationTwoTitle" aria-hidden="true">
+      <article class="document-card interrogation-card">
+        <div class="document-stamp">CLASSIFIED · INTERROGATION 002</div>
+        <p class="document-kicker">FIRST IMPRESSIONS · UNDER REVIEW</p>
+        <h1 id="interrogationTwoTitle" tabindex="-1">First dates, first impressions</h1>
+        <div class="document-rule"></div>
+        <p class="document-copy interrogation-question" id="personalityQuestion"></p>
+        <div class="answer-list" id="personalityAnswerList" role="group" aria-label="Choose your answer"></div>
+        <p class="quiz-feedback" id="personalityQuizFeedback" role="status" aria-live="polite"></p>
+        <div class="quiz-success hidden" id="personalityQuizSuccess" aria-live="polite">
+          <p class="personality-success-message" id="personalitySuccessMessage"></p>
+          <button class="btn stage-button" id="proceedEvidence" type="button">PROCEED TO EVIDENCE ROOM</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden" id="evidenceRoom" data-stage="4" aria-labelledby="evidenceTitle" aria-hidden="true">
+      <article class="document-card evidence-room-card">
+        <div class="document-stamp">CLASSIFIED · DOCUMENT 002</div>
+        <p class="document-kicker">PROJECT 365 · ARCHIVE REVIEW</p>
+        <h1 id="evidenceTitle" tabindex="-1">THE EVIDENCE ROOM</h1>
+        <div class="document-rule"></div>
+        <p class="document-copy evidence-intro">The investigation has uncovered some important photographic evidence.</p>
+        <div class="evidence-grid">
+          <article class="evidence">
+            <button class="evidence-trigger" type="button" aria-expanded="false" aria-controls="caption1">
+              <span class="photo"><img src="images/Photo1.JPG" alt="Exhibit 001 photograph"></span>
+              <span class="exhibit-title">EXHIBIT 001</span>
+            </button>
+            <p class="evidence-caption hidden" id="caption1"></p>
+          </article>
+          <article class="evidence">
+            <button class="evidence-trigger" type="button" aria-expanded="false" aria-controls="caption2">
+              <span class="photo"><img src="images/Photo2.jpeg" alt="Exhibit 002 photograph"></span>
+              <span class="exhibit-title">EXHIBIT 002</span>
+            </button>
+            <p class="evidence-caption hidden" id="caption2"></p>
+          </article>
+          <article class="evidence">
+            <button class="evidence-trigger" type="button" aria-expanded="false" aria-controls="caption3">
+              <span class="photo"><img src="images/Photo3.JPG" alt="Exhibit 003 photograph"></span>
+              <span class="exhibit-title">EXHIBIT 003</span>
+            </button>
+            <p class="evidence-caption hidden" id="caption3"></p>
+          </article>
+        </div>
+        <p class="evidence-closing">Well, that's how our journey began.</p>
+        <p class="evidence-teaser">Two piccoli bimbi getting to know each other. Starting sharing laughter and, slowly, tears.</p>
+        <button class="btn stage-button" id="proceedMemory" type="button">CLICK HERE FOR A SPECIAL MOMENT</button>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden song-screen" id="soundtrackScreen" data-stage="5" aria-labelledby="soundtrackTitle" aria-hidden="true">
+      <article class="song-card">
+        <p class="song-kicker">EXHIBIT 004 · PRIVATE MEMORY</p>
+        <h1 id="soundtrackTitle" tabindex="-1">A special moment</h1>
+        <div class="song-rule"></div>
+        <p class="song-message"><br>I slowly opened my heart to you.<br>You made me feel safe, you made me feel at home.<br>Enough to cry, over a song, first.</p>
+        <div class="youtube-frame">
+          <iframe src="https://www.youtube.com/embed/JqtSuL3H2xs" title="The Sound of Us — YouTube video" allow="encrypted-media; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <button class="btn song-continue" id="continueInvestigation" type="button">CONTINUE INVESTIGATION</button>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden bali-screen" id="baliScreen" data-stage="10" data-chapter="3" aria-labelledby="baliTitle" aria-hidden="true">
+      <article class="bali-card">
+        <p class="flowers-kicker">TRAVEL FILE · FLIGHT LOG 001</p>
+        <h1 id="baliTitle" tabindex="-1">ESCAPING THE NETHERLANDS WEATHER</h1>
+        <p class="bali-subtitle">Part 1 — Bali</p>
+        <div class="bali-globe-wrap">
+          <svg class="bali-globe" viewBox="0 0 720 390" role="img" aria-labelledby="baliMapTitle baliMapDescription">
+            <title id="baliMapTitle">Flight route from Amsterdam to Bali</title>
+            <desc id="baliMapDescription">A small plane travels along a curved route across a stylised globe from the Netherlands to Indonesia.</desc>
+            <defs>
+              <radialGradient id="baliEarthGradient" cx="38%" cy="32%" r="72%"><stop offset="0" stop-color="#f7e8c9"></stop><stop offset="1" stop-color="#d5bea0"></stop></radialGradient>
+              <clipPath id="baliEarthClip"><circle cx="360" cy="195" r="157"></circle></clipPath>
+            </defs>
+            <circle class="bali-earth" cx="360" cy="195" r="157" fill="url(#baliEarthGradient)"></circle>
+            <g class="bali-globe-lines" clip-path="url(#baliEarthClip)">
+              <ellipse cx="360" cy="195" rx="69" ry="157"></ellipse>
+              <ellipse cx="360" cy="195" rx="126" ry="157"></ellipse>
+              <ellipse cx="360" cy="195" rx="157" ry="52"></ellipse>
+              <ellipse cx="360" cy="195" rx="157" ry="105"></ellipse>
+            </g>
+            <path class="bali-flight-route" d="M 208 225 C 262 45 450 54 514 220"></path>
+            <circle class="bali-route-point" cx="208" cy="225" r="7"></circle>
+            <circle class="bali-route-point bali-route-destination" cx="514" cy="220" r="7"></circle>
+            <g class="bali-plane" transform="translate(208 225)">
+              <path d="M-14-4h9l7-9h4l-3 9 12 3v3L3 3l3 9H2l-7-8h-9z"></path>
+              <animateMotion id="baliFlightMotion" path="M 0 0 C 54 -180 242 -171 306 -5" dur="4s" begin="indefinite" rotate="auto" fill="freeze"></animateMotion>
+            </g>
+          </svg>
+        </div>
+        <div class="bali-cities" aria-label="Amsterdam to Bali">
+          <div><small>DEPARTURE</small><strong>AMSTERDAM 🇳🇱</strong></div>
+          <span aria-hidden="true">→</span>
+          <div><small>DESTINATION</small><strong>BALI 🇮🇩</strong></div>
+        </div>
+        <div class="bali-photos" aria-label="Three photographs from our Bali trip">
+          <figure class="bali-memory" style="--bali-order:0"><div class="flower-photo"><img class="flower-image" src="image/bali/bali01.jpeg" alt="Bali trip photograph 1" loading="lazy"><span class="flower-placeholder" hidden>BALI PHOTO 01<br>ADD bali01.jpeg</span></div></figure>
+          <figure class="bali-memory" style="--bali-order:1"><div class="flower-photo"><img class="flower-image" src="image/bali/bali02.gif" alt="Animated Bali trip memory" loading="lazy"><span class="flower-placeholder" hidden>BALI PHOTO 02<br>ADD bali02.gif</span></div></figure>
+          <figure class="bali-memory" style="--bali-order:2"><div class="flower-photo"><img class="flower-image" src="image/bali/bali03.jpeg" alt="Bali trip photograph 3" loading="lazy"><span class="flower-placeholder" hidden>BALI PHOTO 03<br>ADD bali03.jpeg</span></div></figure>
+        </div>
+        <p class="bali-teaser">PART 2 — STAY TUNED...</p>
+        <button class="btn stage-button bali-continue" id="continueFromBali" type="button">CONTINUE OUR STORY</button>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden domestic-access-screen" id="domesticAccessScreen" data-stage="6" data-chapter="4" aria-labelledby="domesticAccessTitle" aria-hidden="true">
+      <article class="access-card domestic-access-card">
+        <div class="access-stamp">CLASSIFIED · CASE 002</div>
+        <p class="access-kicker">COHABITATION FILE · CLEARANCE REQUIRED</p>
+        <h1 id="domesticAccessTitle" tabindex="-1">Living Together <br><span>— CLASSIFIED FILE</span></h1>
+        <div class="access-rule"></div>
+        <p class="access-copy">Some chapters of this investigation require additional clearance.</p>
+        <form id="domesticAccessForm" class="access-form">
+          <label class="visually-hidden" for="domesticPassword">Domestic life access password</label>
+          <input id="domesticPassword" name="domestic-password" type="password" placeholder="Enter your access password" autocomplete="off" required>
+          <p class="password-hint"><i>Another nickname (you like nicknames) that is not really true...</i></p>
+          <button class="btn access-button" id="domesticAccessButton" type="submit">UNLOCK DOMESTIC FILE</button>
+          <p class="access-feedback" id="domesticAccessFeedback" role="status" aria-live="polite"></p>
+        </form>
+        <div class="access-footer">PROJECT 365 · DOMESTIC DOSSIER</div>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden domestic-squirrel-screen" id="domesticSquirrelScreen" data-stage="7" data-chapter="4" aria-labelledby="domesticSquirrelTitle" aria-hidden="true">
+      <article class="squirrel-card domestic-squirrel-card">
+        <div class="squirrel-stamp" aria-hidden="true">FIELD NOTE · 🐿</div>
+        <p class="squirrel-kicker">COHABITATION FILE · DAILY BRIEFING</p>
+        <h1 id="domesticSquirrelTitle" tabindex="-1">DOMESTIC LIFE — DAILY REPORT 🐿️</h1>
+        <p class="squirrel-copy">Well, living together means also this...</p>
+        <div class="squirrel-video-frame">
+          <iframe src="https://www.youtube.com/embed/UgDtd8iCzLY" title="Domestic Life — Daily Squirrel Report YouTube Short" allow="encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <a class="squirrel-fallback" href="https://www.youtube.com/shorts/UgDtd8iCzLY" target="_blank" rel="noopener noreferrer">If the report won't load, watch it directly on YouTube ↗</a>
+        <p class="domestic-squirrel-note"> Next step: pooping in front of each other </p>
+        <button class="btn squirrel-button" id="completeDomesticBriefing" type="button">I ACCEPT THE REALITIES OF DOMESTIC LIFE 🐿️</button>
+        <div class="squirrel-footer">ARCHIVE ADDENDUM · COHABITATION EVIDENCE</div>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden flowers-intro-screen" id="flowersIntroScreen" data-stage="7" data-chapter="4" aria-labelledby="flowersIntroTitle" aria-hidden="true">
+      <article class="flowers-intro-content">
+        <p class="flowers-kicker">LIVING TOGETHER · A SMALL COLLECTION</p>
+        <h1 id="flowersIntroTitle" tabindex="-1"><span>But living together is also full of...</span><span>...little things that make ordinary days feel special.</span></h1>
+        <figure class="him-portrait">
+          <div class="flower-photo"><img class="flower-image" src="image/him.jpeg" alt="A portrait of him" loading="lazy"><span class="flower-placeholder" hidden>PORTRAIT PHOTO<br>ADD image/him.jpeg</span></div>
+        </figure>
+        <span class="falling-petal" aria-hidden="true">✿</span>
+        <button class="btn stage-button flowers-next" id="openFlowersCollection" type="button">THERE'S SOMETHING ELSE...</button>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden flowers-collection-screen" id="flowersCollectionScreen" data-stage="7" data-chapter="4" aria-labelledby="flowersCollectionTitle" aria-hidden="true">
+      <div class="flowers-collection">
+        <p class="flowers-kicker">LIVING TOGETHER · PRIVATE ARCHIVE</p>
+        <h1 id="flowersCollectionTitle" tabindex="-1">Little things that make days feel special</h1>
+        <p class="flowers-subtitle">Every flower has its own story. </p>
+        <div class="flowers-scatter" aria-label="A collection of six flower photographs">
+          <figure class="flower-memory" style="--flower-order:0"><div class="flower-photo"><img class="flower-image" src="image/flower01.jpeg" alt="Flower memory 01" loading="lazy"><span class="flower-placeholder" hidden>FLOWER PHOTO 01<br>ADD image/flower01.jpeg</span></div></figure>
+          <figure class="flower-memory" style="--flower-order:1"><div class="flower-photo"><img class="flower-image" src="image/flower02.jpeg" alt="Flower memory 02" loading="lazy"><span class="flower-placeholder" hidden>FLOWER PHOTO 02<br>ADD image/flower02.jpeg</span></div></figure>
+          <figure class="flower-memory" style="--flower-order:2"><div class="flower-photo"><img class="flower-image" src="image/flower03.jpeg" alt="Flower memory 03" loading="lazy"><span class="flower-placeholder" hidden>FLOWER PHOTO 03<br>ADD image/flower03.jpeg</span></div></figure>
+          <figure class="flower-memory" style="--flower-order:3"><div class="flower-photo"><img class="flower-image" src="image/flower04.jpeg" alt="Flower memory 04" loading="lazy"><span class="flower-placeholder" hidden>FLOWER PHOTO 04<br>ADD image/flower04.jpeg</span></div></figure>
+          <figure class="flower-memory" style="--flower-order:4"><div class="flower-photo"><img class="flower-image" src="image/flower05.jpeg" alt="Flower memory 05" loading="lazy"><span class="flower-placeholder" hidden>FLOWER PHOTO 05<br>ADD image/flower05.jpeg</span></div></figure>
+          <figure class="flower-memory" style="--flower-order:5"><div class="flower-photo"><img class="flower-image" src="image/flower06.jpeg" alt="Flower memory 06" loading="lazy"><span class="flower-placeholder" hidden>FLOWER PHOTO 06<br>ADD image/flower06.jpeg</span></div></figure>
+        </div>
+        <button class="btn stage-button flowers-next" id="continueFlowersStory" type="button">CONTINUE OUR STORY</button>
+      </div>
+    </section>
+
+    <section class="stage-screen hidden satisfaction-survey-screen" id="satisfactionSurveyScreen" data-stage="7" data-chapter="4" aria-labelledby="surveyTitle" aria-hidden="true">
+      <article class="survey-card">
+        <p class="flowers-kicker">LIVING TOGETHER · JOINT DECISIONS</p>
+        <h1 id="surveyTitle" tabindex="-1">SATISFACTION SURVEY</h1>
+        <p class="survey-intro">Being together also means making decisions together...</p>
+        <p class="survey-subtitle">Let's see how much you enjoy our little joint decisions. 😂</p>
+        <div class="survey-questions">
+          <section class="survey-question" id="surveyQuestion1" aria-labelledby="surveyQuestion1Title">
+            <h2 id="surveyQuestion1Title">How much do you enjoy choosing what to eat together for the day?</h2>
+            <div class="survey-score-line"><span>Your score</span><output class="survey-score" id="surveyScore1" for="surveySlider1" aria-live="polite">5</output><span class="survey-out-of">/ 10</span></div>
+            <input class="survey-slider" id="surveySlider1" type="range" min="0" max="10" step="1" value="5" aria-labelledby="surveyQuestion1Title" aria-describedby="surveyScale1">
+            <div class="survey-scale" id="surveyScale1"><span>0</span><span>10</span></div>
+            <p class="survey-slider-instruction" id="surveyInstruction1">Move the slider to continue →</p>
+          </section>
+          <section class="survey-question hidden" id="surveyQuestion2" aria-labelledby="surveyQuestion2Title" aria-hidden="true">
+            <h2 id="surveyQuestion2Title">How much do you enjoy choosing furniture together?</h2>
+            <div class="survey-score-line"><span>Your score</span><output class="survey-score" id="surveyScore2" for="surveySlider2" aria-live="polite">5</output><span class="survey-out-of">/ 10</span></div>
+            <input class="survey-slider" id="surveySlider2" type="range" min="0" max="10" step="1" value="5" aria-labelledby="surveyQuestion2Title" aria-describedby="surveyScale2">
+            <div class="survey-scale" id="surveyScale2"><span>0</span><span>10</span></div>
+            <p class="survey-slider-instruction" id="surveyInstruction2">Move the slider to continue →</p>
+          </section>
+          <section class="survey-question hidden" id="surveyQuestion3" aria-labelledby="surveyQuestion3Title" aria-hidden="true">
+            <h2 id="surveyQuestion3Title">How much do you enjoy organising the trip to Thailand together?</h2>
+            <div class="survey-score-line"><span>Your score</span><output class="survey-score" id="surveyScore3" for="surveySlider3" aria-live="polite">5</output><span class="survey-out-of">/ 10</span></div>
+            <input class="survey-slider" id="surveySlider3" type="range" min="0" max="10" step="1" value="5" aria-labelledby="surveyQuestion3Title" aria-describedby="surveyScale3">
+            <div class="survey-scale" id="surveyScale3"><span>0</span><span>10</span></div>
+            <p class="survey-slider-instruction" id="surveyInstruction3">Move the slider to continue →</p>
+          </section>
+        </div>
+        <button class="btn stage-button survey-submit hidden" id="submitSurvey" type="button">SUBMIT MY ANSWERS</button>
+        <p class="survey-confirmation hidden" id="surveyConfirmation" role="status" aria-live="polite">Survey completed. Your answers have been added to the relationship database. 😂</p>
+        <button class="btn stage-button survey-continue hidden" id="continueAfterSurvey" type="button">CONTINUE OUR STORY</button>
+      </article>
+    </section>
+
+    <section class="stage-screen hidden love-letter-screen" id="loveLetterScreen" data-stage="7" data-chapter="4" aria-labelledby="loveLetterTitle" aria-hidden="true">
+      <article class="love-letter-card">
+        <p class="flowers-kicker">LIVING TOGETHER · PRIVATE NOTE</p>
+        <h1 id="loveLetterTitle" tabindex="-1">You are my best friend, and I love living with you.</h1>
+        <p class="love-letter-subtitle">Open the envelope...</p>
+        <div class="letter-scene" id="letterScene">
+          <div class="letter-photo-card" id="letterPhotoCard" aria-hidden="true">
+            <img id="ballerinaPhoto" src="image/ballerina.jpeg" alt="My ballerina sleeping" loading="lazy">
+            <span class="letter-photo-placeholder" id="ballerinaPhotoFallback" hidden>ADD YOUR PHOTO<br>image/ballerina.jpeg</span>
+          </div>
+          <div class="letter-envelope-art" aria-hidden="true">
+            <span class="letter-envelope-flap"></span>
+            <span class="letter-envelope-front"></span>
+          </div>
+          <button class="letter-open-trigger" id="openLetter" type="button" aria-label="Open your letter" aria-expanded="false">
+            <span class="letter-wax-seal" aria-hidden="true">365</span>
+            <span class="letter-open-instruction">OPEN YOUR LETTER</span>
+          </button>
+        </div>
+        <div class="letter-reveal-copy hidden" id="letterRevealCopy" aria-live="polite">
+          <h2>My ballerina sleeping. 😂</h2>
+          <p>Wouldn't trade this view for anything.</p>
+        </div>
+        <button class="btn stage-button letter-continue hidden" id="continueFromLetter" type="button">CONTINUE OUR STORY</button>
+      </article>
+    </section>
+  </main>
+
+  <main class="future-chapters hidden" id="futureChapters" aria-hidden="true">
+    <section class="panel" id="briefing">
+      <div class="panel-head"><span class="label">Document 001 · Mission briefing</span><span class="status">Available now</span></div>
+      <h2>You've been selected.</h2>
+      <p>An unusual sequence of events began one year ago. Two people crossed paths, met again, and somehow became each other's favourite person to annoy.</p>
+      <p>Your assignment is to reconstruct the beginning of this story. There will be clues, a few questionable memories, and at least one excellent meal. Your mission coordinator reserves the right to request hugs at any point.</p>
+      <div class="brief-grid">
+        <div class="brief-cell"><b>365</b><span>Days under review</span></div>
+        <div class="brief-cell"><b>02</b><span>Important locations</span></div>
+        <div class="brief-cell"><b>01</b><span>Favourite person</span></div>
+      </div>
+      <div class="actions"><button class="btn" id="legacyAcceptBtn">Accept the mission</button></div>
+      <div class="feedback" id="acceptFeedback" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="evidence">
+      <div class="panel-head"><span class="label">Document 002 · Evidence room</span><span class="status">3 selected exhibits</span></div>
+      <h2>Some suspiciously good moments.</h2>
+      <p>Three exhibits have been selected from a much larger archive. The remaining photographic evidence has been withheld for the physical presentation. (The investigator has excellent taste in printed photographs.)</p>
+      <div class="evidence-grid">
+        <div class="evidence">
+          <div class="photo" id="legacyPhoto1">Exhibit A<br>Upload a favourite photo</div>
+          <small>Exhibit 001 · The beginning</small>
+          <strong>Evidence of a very good first impression.</strong>
+        </div>
+        <div class="evidence">
+          <div class="photo" id="legacyPhoto2">Exhibit B<br>Upload a funny photo</div>
+          <small>Exhibit 002 · The plot thickens</small>
+          <strong>Evidence that things got slightly ridiculous.</strong>
+        </div>
+        <div class="evidence">
+          <div class="photo" id="legacyPhoto3">Exhibit C<br>Upload a favourite photo</div>
+          <small>Exhibit 003 · Current status</small>
+          <strong>Evidence that the investigator is not impartial.</strong>
+        </div>
+      </div>
+      <p class="small">Photo tip: choose two or three images that give a little flavour of you together. The 19 printed pictures remain the main keepsake.</p>
+    </section>
+
+    <section class="panel" id="sunday">
+      <div class="panel-head sunday-panel-head"><span class="status" id="sundayStatus">Locked</span></div>
+      <div class="progress"><span class="on"></span><span></span><span></span></div>
+      <h2><span class="lock-icon" id="sundayIcon">▣</span> Sunday Arrival</h2>
+      <p id="sundayIntro">This chapter is sealed until your mission coordinator gives you the Sunday access code.</p>
+      <div id="sundayGate">
+        <p class="small">Enter the access code provided by your mission coordinator.</p>
+        <div class="field"><input id="sundayCode" type="password" placeholder="Sunday access code" autocomplete="off"><button class="btn" id="sundayUnlock">Unlock</button></div>
+        <div class="feedback" id="sundayCodeFeedback" aria-live="polite"></div>
+        <p class="sunday-monday-reminder">Please keep Monday evening completely free. Your mission coordinator has made arrangements.</p>
+      </div>
+      <div id="sundayUnlocked" class="hidden">
+        <p class="small">Access granted. The Culinary File is now unlocked.</p>
+        <button class="btn" id="openCulinaryFile" type="button">OPEN THE CULINARY FILE</button>
+      </div>
+      <div id="sundayPuzzle" class="hidden">
+        <h3>First assignment: identify the scene.</h3>
+        <div class="clue">I wasn't a date, not quite a plan. Just a drink, a place, and two people who hadn't yet realised they were at the start of something. Where did our paths first cross?</div>
+        <p class="small">Enter the name of the place. Your answer is checked on this device.</p>
+        <div class="field"><input id="sundayAnswer" type="text" placeholder="The place where we first met"><button class="btn" id="sundayCheck">Submit answer</button></div>
+        <div class="feedback" id="sundayAnswerFeedback" aria-live="polite"></div>
+      </div>
+      <div id="sundayReveal" class="hidden">
+        <div class="clue"><b>Case note: location identified.</b><br>Your first destination is the coffee shop where we met. Please report there with your mission coordinator. Recommended activity: order a coffee, revisit the beginning, and try not to be too charming.</div>
+        <p>Before you leave, remember this: the best part of that first meeting was something neither of us could have predicted.</p>
+        <p class="small">Chapter complete. Your coordinator will provide the next access code when the time is right.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="culinaryFile" data-stage="8" aria-labelledby="culinaryFileTitle">
+      <p class="flowers-kicker">SUNDAY · PRIVATE FILE</p>
+      <h1 id="culinaryFileTitle" tabindex="-1">THE CULINARY FILE</h1>
+      <p class="culinary-subtitle">An investigation into one of our favorite activities. For you cooking, for me...eating!</p>
+      <div class="culinary-gallery" aria-label="Six photographs of meals he has prepared">
+        <figure class="culinary-memory" style="--culinary-order:0"><div class="flower-photo"><img class="flower-image" src="image/culinary/food01.jpeg" alt="A meal he prepared, photograph 1" loading="lazy"><span class="flower-placeholder" hidden>FOOD PHOTO 01<br>ADD food01.jpeg</span></div></figure>
+        <figure class="culinary-memory" style="--culinary-order:1"><div class="flower-photo"><img class="flower-image" src="image/culinary/food02.jpeg" alt="A meal he prepared, photograph 2" loading="lazy"><span class="flower-placeholder" hidden>FOOD PHOTO 02<br>ADD food02.jpeg</span></div></figure>
+        <figure class="culinary-memory" style="--culinary-order:2"><div class="flower-photo"><img class="flower-image" src="image/culinary/food03.jpeg" alt="A meal he prepared, photograph 3" loading="lazy"><span class="flower-placeholder" hidden>FOOD PHOTO 03<br>ADD food03.jpeg</span></div></figure>
+        <figure class="culinary-memory" style="--culinary-order:3"><div class="flower-photo"><img class="flower-image" src="image/culinary/food04.jpeg" alt="A meal he prepared, photograph 4" loading="lazy"><span class="flower-placeholder" hidden>FOOD PHOTO 04<br>ADD food04.jpeg</span></div></figure>
+        <figure class="culinary-memory" style="--culinary-order:4"><div class="flower-photo"><img class="flower-image" src="image/culinary/food05.jpeg" alt="A meal he prepared, photograph 5" loading="lazy"><span class="flower-placeholder" hidden>FOOD PHOTO 05<br>ADD food05.jpeg</span></div></figure>
+        <figure class="culinary-memory" style="--culinary-order:5"><div class="flower-photo"><img class="flower-image" src="image/culinary/food06.jpeg" alt="A meal he prepared, photograph 6" loading="lazy"><span class="flower-placeholder" hidden>FOOD PHOTO 06<br>ADD food06.jpeg</span></div></figure>
+      </div>
+      <p class="culinary-message">I love the food you make for us. Especially because it's made by the most handsome chef. &#x2764;&#xFE0F;</p>
+      <button class="btn stage-button culinary-continue" id="continueToFinalInterrogation" type="button">CONTINUE TO THE FINAL INTERROGATION</button>
+    </section>
+
+    <section class="panel" id="finalInterrogationScreen" data-stage="8" aria-labelledby="finalInterrogationTitle">
+      <p class="flowers-kicker">SUNDAY · FINAL INTERROGATION</p>
+      <h1 id="finalInterrogationTitle" tabindex="-1">THE FINAL INTERROGATION</h1>
+      <p class="final-interrogation-subtitle">Let's see how well you know me (but with your memory, I'm sure you do...)</p>
+      <div class="final-interrogation-questions" id="finalInterrogationQuestions"></div>
+      <section class="final-interrogation-complete hidden" id="finalInterrogationComplete" aria-live="polite">
+        <h2>INTERROGATION COMPLETED.</h2>
+        <p>Your knowledge of the mission coordinator has been evaluated. Results: surprisingly good.</p>
+        <button class="btn stage-button" id="proceedToFinalClue" type="button">PROCEED TO THE FINAL CLUE</button>
+      </section>
+    </section>
+
+    <section class="panel" id="monday">
+      <div class="panel-head"><span class="label">Chapter 02 · Monday, 16 November</span><span class="status" id="mondayStatus">Locked</span></div>
+      <div class="progress"><span class="on"></span><span class="on"></span><span></span></div>
+      <h2><span class="lock-icon" id="mondayIcon">▣</span> The 1 year date.</h2>
+      <p>You successfully completed all the challenges! One last step: wait for your wife to come back home and enjoy your 1-year date. ❤️</p>
+      <div id="mondayGate">
+        <div class="clue">Check WhatsApp on Monday morning</div>
+        <p class="small">Find the hidden note and enter the access code.</p>
+        <div class="field"><input id="mondayCode" type="password" placeholder="Monday access code" autocomplete="off"><button class="btn" id="mondayUnlock">Unlock</button></div>
+        <div class="feedback" id="mondayCodeFeedback" aria-live="polite"></div>
+      </div>
+      <div id="mondayReveal" class="hidden">
+        <div class="restaurant-message-stage" id="restaurantMessageStage">
+          <button class="btn stage-button restaurant-reveal-trigger" id="revealRestaurant" type="button">REVEAL TONIGHT'S DESTINATION</button>
+        </div>
+        <div class="restaurant-destination-stage hidden" id="restaurantDestinationStage" aria-live="polite">
+        <p class="restaurant-kicker">DESTINATION CONFIRMED</p>
+        <h3 class="restaurant-name">DHOL &amp; SOUL INDIAN BISTRO</h3>
+        <div class="restaurant-map-frame">
+          <iframe src="https://www.google.com/maps?q=51.4384282,5.4701914&amp;output=embed" title="Dhol &amp; Soul Indian Bistro location on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <a class="btn restaurant-map-link" href="https://www.google.com/maps/place/Dhol+%26+Soul+Indian+Bistro/@51.4384282,5.4676111,17z/data=!3m1!4b1!4m6!3m5!1s0x47c6d9314c11f7f9:0xee7d7600916a3f3a!8m2!3d51.4384282!4d5.4701914!16s%2Fg%2F11yftq8brw" target="_blank" rel="noopener noreferrer">OPEN LOCATION IN GOOGLE MAPS</a>
+        <p class="restaurant-goodbye">See you later... <span class="restaurant-wink" aria-label="winking face">😉</span></p>
+        <button class="btn stage-button" id="openFinalSecret" type="button">WAIT... THERE'S ONE MORE SURPRISE</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="finalSecretAccess" data-stage="9" aria-labelledby="finalSecretTitle">
+      <p class="flowers-kicker">MONDAY · FINAL CLEARANCE</p>
+      <h1 id="finalSecretTitle" tabindex="-1">ONE LAST SURPRISE</h1>
+      <p class="final-secret-copy">Your anniversary mission isn't over just yet. There's still one more surprise waiting for you.</p>
+      <form id="finalSecretForm" class="final-secret-form">
+        <label class="visually-hidden" for="finalSecretCode">Final access code</label>
+        <input id="finalSecretCode" type="password" placeholder="Enter the access code" autocomplete="off" required>
+        <button class="btn stage-button" type="submit">UNLOCK</button>
+        <p class="feedback" id="finalSecretFeedback" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="panel" id="finalSecretGift" data-stage="9" aria-labelledby="finalSecretGiftTitle">
+      <p class="flowers-kicker">MONDAY · FINAL FILE</p>
+      <h1 id="finalSecretGiftTitle" tabindex="-1">THE FINAL SURPRISE</h1>
+      <p class="final-secret-copy">Access granted. Your final surprise is waiting for you.</p>
+    </section>
+
+    <section class="panel hidden" id="final">
+      <div class="panel-head"><span class="label">Chapter 03 · Final report</span><span class="status">Case resolved</span></div>
+      <div class="final-note">
+        <div class="kicker" style="color:#c79b75">Investigation conclusion</div>
+        <h2>Case closed?<br><i>Not even close.</i></h2>
+        <p>Two people met. One coffee became a first date. One first date became 365 days of laughter, little adventures, ordinary days, and memories I wouldn't trade for anything.</p>
+        <p>The evidence is conclusive: you're still my favourite person.</p>
+        <p><b>Happy first anniversary.</b><br>I'd choose you all over again. And I'd happily investigate another 365 days with you.</p>
+        <div class="rule" style="background:#b18b55"></div>
+        <h3 style="color:#f3eee5">Would you agree to another 365 days?</h3>
+        <div class="actions" style="justify-content:center">
+          <button class="btn" id="yesBtn" style="background:#8b4148">Obviously ❤️</button>
+          <button class="btn secondary" id="evidenceBtn" style="color:#f3eee5;border-color:#88766a">I need more evidence</button>
+        </div>
+        <p id="finalReply" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><span class="label">Coordinator's note</span><span class="status">For your eyes only</span></div>
+      <h3>A little reminder for the person running the operation.</h3>
+      <p class="small">The 19 printed photographs are the separate physical gift. Keep them out of the website and save them for the final reveal. You can customise the venue answers and access codes in the setup section near the top of script.js.</p>
+      <p class="small">This page runs locally in a browser. The photos you add are stored in that browser only. For a shared online version, publish the HTML file and replace the sample answers/codes before sending him the link.</p>
+    </section>
+  </main>
+  <footer><span>PROJECT 365 · PRIVATE CASE FILE</span><span>Prepared with suspicious amounts of affection</span></footer>
+</div>
+
+<aside class="developer-tools hidden" id="developerTools" aria-label="Developer preview controls">
+  <button class="developer-toggle" id="developerToggle" type="button" aria-expanded="false" aria-controls="developerPanel">DEV MODE</button>
+  <section class="developer-panel hidden" id="developerPanel" aria-labelledby="developerPanelTitle">
+    <div class="developer-panel-heading">
+      <h2 id="developerPanelTitle">DEVELOPER PREVIEW MODE</h2>
+      <button class="developer-close" id="developerClose" type="button" aria-label="Close developer panel">×</button>
+    </div>
+    <label class="visually-hidden" for="developerPageSelect">Choose a page</label>
+    <select id="developerPageSelect">
+      <option value="accessScreen">Master Password</option>
+      <option value="squirrelScreen">Daily Squirrel Report</option>
+      <option value="missionScreen">Mission Briefing</option>
+      <option value="interrogation">Interrogation 001 — Age</option>
+      <option value="interrogationTwo">Interrogation 002 — First Impressions</option>
+      <option value="evidenceRoom">Evidence Room</option>
+      <option value="soundtrackScreen">A Special Moment</option>
+      <option value="domesticAccessScreen">Domestic Access</option>
+      <option value="domesticSquirrelScreen">Living Together Squirrel Report</option>
+      <option value="flowersIntroScreen">Flowers — Introduction</option>
+      <option value="flowersCollectionScreen">Flowers — Gallery</option>
+      <option value="satisfactionSurveyScreen">Satisfaction Survey</option>
+      <option value="baliScreen">Bali</option>
+      <option value="sunday">Sunday Arrival</option>
+      <option value="culinaryFile">Culinary File</option>
+      <option value="finalInterrogationScreen">Final Interrogation</option>
+      <option value="monday">Monday Access</option>
+      <option value="restaurantReveal">Restaurant Reveal</option>
+      <option value="finalSecretAccess">Final Secret Access</option>
+      <option value="finalSecretGift">Massage / Spa Surprise</option>
+    </select>
+    <button class="btn developer-go" id="developerGo" type="button">GO TO SELECTED PAGE</button>
+    <div class="developer-nav-controls">
+      <button class="btn secondary" id="developerPrevious" type="button">PREVIOUS PAGE</button>
+      <button class="btn secondary" id="developerNext" type="button">NEXT PAGE</button>
+    </div>
+    <button class="btn developer-reset" id="developerReset" type="button">RESET WEBSITE</button>
+  </section>
+</aside>
+
+<script src="script.js"></script>
+</body>
+</html>
