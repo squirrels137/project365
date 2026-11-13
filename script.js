@@ -68,7 +68,7 @@ accessForm.addEventListener("submit", event => {
     return;
   }
 
-  authenticationPassed = true;
+  setProgressFlag("authenticated");
   feedback.textContent = "Decrypting case file…";
   button.disabled = true;
   button.textContent = "ACCESSING CLASSIFIED FILE";
@@ -80,22 +80,148 @@ accessForm.addEventListener("submit", event => {
 });
 
 document.getElementById("completeSquirrel").addEventListener("click", () => {
-  navigateToScreen("missionScreen");
+  navigateAndMark("missionScreen", "squirrelCompleted");
   document.getElementById("welcomeMessage").classList.remove("hidden");
 });
 
 const $ = id => document.getElementById(id);
-let navigationHistory = ["accessScreen"];
-let navigationHistoryIndex = 0;
+const PROGRESS_STORAGE_KEY = "project365.progress.v1";
+const PROGRESS_FLAG_NAMES = [
+  "authenticated", "squirrelCompleted", "missionAccepted", "ageQuizCompleted",
+  "personalityQuizCompleted", "evidenceCompleted", "soundtrackCompleted", "baliCompleted",
+  "domesticAccessGranted", "domesticBriefingCompleted", "flowersIntroCompleted",
+  "flowersGalleryCompleted", "letterOpened", "letterCompleted", "sundayCodeUnlocked",
+  "sundayPuzzleCompleted", "sundayContinued", "culinaryCompleted",
+  "finalInterrogationCompleted", "mondayCodeUnlocked", "restaurantRevealed",
+  "finalSecretAccessOpened", "finalSecretUnlocked"
+];
+
+function isKnownScreenId(screenId){
+  const screen = $(screenId);
+  return screenId === "accessScreen" || Boolean(screen && (
+    screen.matches(".stage-screen, .squirrel-screen") ||
+    (screen.classList.contains("panel") && screen.closest(".future-chapters"))
+  ));
+}
+
+function isRestorableScreen(screenId, record){
+  if(!isKnownScreenId(screenId))return false;
+  if(screenId !== "accessScreen" && !record.flags.authenticated)return false;
+  if(screenId !== "accessScreen" && !record.unlockedScreens.includes(screenId))return false;
+  const requirements = {
+    missionScreen: "squirrelCompleted",
+    interrogation: "missionAccepted",
+    interrogationTwo: "ageQuizCompleted",
+    evidenceRoom: "personalityQuizCompleted",
+    soundtrackScreen: "evidenceCompleted",
+    baliScreen: "soundtrackCompleted",
+    domesticAccessScreen: "baliCompleted",
+    domesticSquirrelScreen: "domesticAccessGranted",
+    flowersIntroScreen: "domesticBriefingCompleted",
+    flowersCollectionScreen: "flowersIntroCompleted",
+    satisfactionSurveyScreen: "flowersGalleryCompleted",
+    sunday: "letterCompleted",
+    culinaryFile: "sundayCodeUnlocked",
+    finalInterrogationScreen: "culinaryCompleted",
+    monday: "finalInterrogationCompleted",
+    finalSecretAccess: "restaurantRevealed",
+    finalSecretGift: "finalSecretUnlocked"
+  };
+  const requiredFlag = requirements[screenId];
+  if(screenId === "loveLetterScreen" && !record.survey.submitted)return false;
+  return !requiredFlag || record.flags[requiredFlag] === true;
+}
+
+function isValidProgressRecord(record){
+  if(!record || record.version !== 1 || typeof record.currentScreenId !== "string")return false;
+  if(!Array.isArray(record.navigationHistory) || !record.navigationHistory.length || record.navigationHistory.length > 100)return false;
+  if(!Number.isInteger(record.navigationHistoryIndex) || record.navigationHistoryIndex < 0 || record.navigationHistoryIndex >= record.navigationHistory.length)return false;
+  if(record.navigationHistory[record.navigationHistoryIndex] !== record.currentScreenId)return false;
+  if(!Array.isArray(record.unlockedScreens) || !record.unlockedScreens.length)return false;
+  if(!record.navigationHistory.every(id => isKnownScreenId(id) && record.unlockedScreens.includes(id)))return false;
+  if(!Array.isArray(record.unlockedScreens) || !record.unlockedScreens.every(isKnownScreenId))return false;
+  if(!Number.isInteger(record.furthestUnlockedChapter) || record.furthestUnlockedChapter < 0 || record.furthestUnlockedChapter > 6)return false;
+  if(!record.flags || !PROGRESS_FLAG_NAMES.every(name => typeof record.flags[name] === "boolean"))return false;
+  if(!Array.isArray(record.finalInterrogationCompleted) || record.finalInterrogationCompleted.length !== 3 || !record.finalInterrogationCompleted.every(value => typeof value === "boolean"))return false;
+  if(!Array.isArray(record.evidenceCaptions) || record.evidenceCaptions.length !== 3 || !record.evidenceCaptions.every(value => typeof value === "boolean"))return false;
+  if(!record.survey || !Array.isArray(record.survey.scores) || record.survey.scores.length !== 3 || !record.survey.scores.every(value => Number.isInteger(value) && value >= 0 && value <= 10))return false;
+  if(!Array.isArray(record.survey.interacted) || record.survey.interacted.length !== 3 || !record.survey.interacted.every(value => typeof value === "boolean"))return false;
+  if(!Number.isInteger(record.survey.revealedCount) || record.survey.revealedCount < 1 || record.survey.revealedCount > 3 || typeof record.survey.submitted !== "boolean")return false;
+  if((record.survey.interacted[0] && record.survey.revealedCount < 2) || (record.survey.interacted[1] && record.survey.revealedCount < 3))return false;
+  if(record.survey.submitted && (record.survey.revealedCount !== 3 || !record.survey.interacted[2]))return false;
+  if((record.finalInterrogationCompleted[1] && !record.finalInterrogationCompleted[0]) || (record.finalInterrogationCompleted[2] && !record.finalInterrogationCompleted[1]))return false;
+  if(record.flags.finalInterrogationCompleted !== record.finalInterrogationCompleted.every(Boolean))return false;
+  if(record.flags.finalSecretAccessOpened && !record.flags.restaurantRevealed)return false;
+  if(record.flags.finalSecretUnlocked && !record.flags.finalSecretAccessOpened)return false;
+  if(!isRestorableScreen(record.currentScreenId, record))return false;
+  return record.navigationHistory.every(id => isRestorableScreen(id, record));
+}
+
+function readSavedProgress(){
+  try{
+    const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+    if(!raw)return null;
+    const record = JSON.parse(raw);
+    if(isValidProgressRecord(record))return record;
+    localStorage.removeItem(PROGRESS_STORAGE_KEY);
+  }catch(error){
+    try{localStorage.removeItem(PROGRESS_STORAGE_KEY)}catch(ignore){}
+  }
+  return null;
+}
+
+const savedProgress = readSavedProgress();
+const progressFlags = savedProgress ? { ...savedProgress.flags } : Object.fromEntries(PROGRESS_FLAG_NAMES.map(name => [name, false]));
+let navigationHistory = savedProgress ? [...savedProgress.navigationHistory] : ["accessScreen"];
+let navigationHistoryIndex = savedProgress ? savedProgress.navigationHistoryIndex : 0;
 let currentScreenId = "accessScreen";
 let navigationBusy = false;
-let authenticationPassed = false;
-let domesticAccessGranted = false;
-let finalSecretUnlocked = false;
-const satisfactionSurveyState = { scores: [5, 5, 5], interacted: [false, false, false], revealedCount: 1, submitted: false };
-const finalInterrogationState = { completed: [false, false, false] };
+let authenticationPassed = progressFlags.authenticated;
+let domesticAccessGranted = progressFlags.domesticAccessGranted;
+let finalSecretUnlocked = progressFlags.finalSecretUnlocked;
+const satisfactionSurveyState = savedProgress ? {
+  scores: [...savedProgress.survey.scores],
+  interacted: [...savedProgress.survey.interacted],
+  revealedCount: savedProgress.survey.revealedCount,
+  submitted: savedProgress.survey.submitted
+} : { scores: [5, 5, 5], interacted: [false, false, false], revealedCount: 1, submitted: false };
+const finalInterrogationState = { completed: savedProgress ? [...savedProgress.finalInterrogationCompleted] : [false, false, false] };
 const navigationScreenSelector = ".stage-screen, .squirrel-screen, .future-chapters > .panel";
-let furthestUnlockedChapter = 0;
+let furthestUnlockedChapter = savedProgress ? savedProgress.furthestUnlockedChapter : 0;
+const unlockedScreens = new Set(savedProgress ? savedProgress.unlockedScreens : ["accessScreen"]);
+const evidenceCaptionState = savedProgress ? [...savedProgress.evidenceCaptions] : [false, false, false];
+
+function setProgressFlag(name, value = true){
+  progressFlags[name] = Boolean(value);
+  if(name === "authenticated")authenticationPassed = Boolean(value);
+  if(name === "domesticAccessGranted")domesticAccessGranted = Boolean(value);
+  if(name === "finalSecretUnlocked")finalSecretUnlocked = Boolean(value);
+}
+
+function saveProgress(){
+  if(navigationBusy)return;
+  const record = {
+    version: 1,
+    currentScreenId,
+    navigationHistory: [...navigationHistory],
+    navigationHistoryIndex,
+    unlockedScreens: [...unlockedScreens],
+    furthestUnlockedChapter,
+    flags: { ...progressFlags },
+    finalInterrogationCompleted: [...finalInterrogationState.completed],
+    evidenceCaptions: [...evidenceCaptionState],
+    survey: {
+      scores: [...satisfactionSurveyState.scores],
+      interacted: [...satisfactionSurveyState.interacted],
+      revealedCount: satisfactionSurveyState.revealedCount,
+      submitted: satisfactionSurveyState.submitted
+    }
+  };
+  try{localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(record))}catch(error){}
+}
+
+window.addEventListener("pagehide", () => saveProgress());
+
 function updateStorylineProgress(currentChapter){
   furthestUnlockedChapter = Math.max(furthestUnlockedChapter, currentChapter);
   document.querySelectorAll("[data-chapter-indicator]").forEach(indicator => {
@@ -154,18 +280,20 @@ function prepareFutureChapter(screen){
 }
 
 function navigateToScreen(screenId, options = {}){
-  if(navigationBusy)return;
+  if(navigationBusy)return false;
   const target = $(screenId);
-  if(!target)return;
-  if(target.id !== "accessScreen" && !authenticationPassed)return;
-  if(target.id === "finalSecretGift" && !finalSecretUnlocked)return;
+  if(!target)return false;
+  if(target.id !== "accessScreen" && !authenticationPassed)return false;
+  if(target.id === "finalSecretGift" && !finalSecretUnlocked)return false;
   if(target.closest(".future-chapters"))prepareFutureChapter(target);
-  if(target.id === currentScreenId)return;
+  if(target.id === currentScreenId)return false;
 
+  let nextHistory = navigationHistory;
+  let nextHistoryIndex = options.historyIndex ?? navigationHistoryIndex;
   if(options.recordHistory !== false){
-    navigationHistory = navigationHistory.slice(0, navigationHistoryIndex + 1);
-    navigationHistory.push(target.id);
-    navigationHistoryIndex = navigationHistory.length - 1;
+    nextHistory = navigationHistory.slice(0, navigationHistoryIndex + 1);
+    nextHistory.push(target.id);
+    nextHistoryIndex = nextHistory.length - 1;
   }
 
   navigationBusy = true;
@@ -226,6 +354,10 @@ function navigateToScreen(screenId, options = {}){
     target.classList.add("active", "is-entering");
     target.setAttribute("aria-hidden", "false");
     currentScreenId = target.id;
+    navigationHistory = nextHistory;
+    navigationHistoryIndex = nextHistoryIndex;
+    unlockedScreens.add(target.id);
+    if(target.id === "finalSecretAccess")setProgressFlag("finalSecretAccessOpened");
 
     if(target.id === "baliScreen"){
       target.classList.remove("bali-reveal");
@@ -255,13 +387,21 @@ function navigateToScreen(screenId, options = {}){
     if(heading)heading.focus({ preventScroll: true });
     navigationBusy = false;
     updateBackButtons();
+    saveProgress();
   }, 220);
+  return true;
 }
 
 function goBack(){
   if(navigationBusy || navigationHistoryIndex <= 0)return;
-  navigationHistoryIndex -= 1;
-  navigateToScreen(navigationHistory[navigationHistoryIndex], { recordHistory: false });
+  const previousIndex = navigationHistoryIndex - 1;
+  navigateToScreen(navigationHistory[previousIndex], { recordHistory: false, historyIndex: previousIndex });
+}
+
+function navigateAndMark(screenId, flagName){
+  const scheduled = navigateToScreen(screenId);
+  if(scheduled && flagName)setProgressFlag(flagName);
+  return scheduled;
 }
 
 function showStage(stageNumber){
@@ -297,7 +437,7 @@ function reveal(id){$(id).classList.remove("hidden")}
 function hide(id){$(id).classList.add("hidden")}
 function accepted(input, expected){return normalise(input) === normalise(expected)}
 
-$("acceptBtn").addEventListener("click", () => showStage(2));
+$("acceptBtn").addEventListener("click", () => navigateAndMark("interrogation", "missionAccepted"));
 
 document.querySelectorAll(".answer-option").forEach(option => {
   option.addEventListener("click", () => {
@@ -306,6 +446,8 @@ document.querySelectorAll(".answer-option").forEach(option => {
       $("answerList").classList.add("hidden");
       $("quizFeedback").textContent = "";
       $("quizSuccess").classList.remove("hidden");
+      setProgressFlag("ageQuizCompleted");
+      saveProgress();
       $("proceedInterrogation2").focus({ preventScroll: true });
     }else{
       $("quizFeedback").textContent = CONFIG.quizIncorrectMessages[answer] || "Wrong, try again";
@@ -313,9 +455,9 @@ document.querySelectorAll(".answer-option").forEach(option => {
   });
 });
 
-$("proceedInterrogation2").addEventListener("click", () => showStage(3));
-$("proceedEvidence").addEventListener("click", () => showStage(4));
-$("proceedMemory").addEventListener("click", () => showStage(5));
+$("proceedInterrogation2").addEventListener("click", () => navigateToScreen("interrogationTwo"));
+$("proceedEvidence").addEventListener("click", () => navigateToScreen("evidenceRoom"));
+$("proceedMemory").addEventListener("click", () => navigateAndMark("soundtrackScreen", "evidenceCompleted"));
 
 $("personalityQuestion").textContent = CONFIG.personalityQuestion;
 CONFIG.personalityAnswers.forEach(answer => {
@@ -329,6 +471,8 @@ CONFIG.personalityAnswers.forEach(answer => {
       $("personalityQuizFeedback").textContent = "";
       $("personalitySuccessMessage").textContent = CONFIG.personalitySuccessMessage;
       $("personalityQuizSuccess").classList.remove("hidden");
+      setProgressFlag("personalityQuizCompleted");
+      saveProgress();
       $("proceedEvidence").focus({ preventScroll: true });
     }else{
       $("personalityQuizFeedback").textContent = CONFIG.personalityIncorrectMessage;
@@ -338,11 +482,11 @@ CONFIG.personalityAnswers.forEach(answer => {
 });
 
 $("continueInvestigation").addEventListener("click", () => {
-  navigateToScreen("baliScreen");
+  navigateAndMark("baliScreen", "soundtrackCompleted");
 });
 
 $("continueFromBali").addEventListener("click", () => {
-  navigateToScreen("domesticAccessScreen");
+  navigateAndMark("domesticAccessScreen", "baliCompleted");
 });
 
 $("domesticAccessForm").addEventListener("submit", event => {
@@ -358,7 +502,7 @@ $("domesticAccessForm").addEventListener("submit", event => {
     return;
   }
 
-  domesticAccessGranted = true;
+  setProgressFlag("domesticAccessGranted");
   feedback.textContent = "Access granted. Welcome to domestic life.";
   button.disabled = true;
   button.textContent = "ACCESSING DOMESTIC FILE";
@@ -369,15 +513,15 @@ $("domesticAccessForm").addEventListener("submit", event => {
 });
 
 $("completeDomesticBriefing").addEventListener("click", () => {
-  navigateToScreen("flowersIntroScreen");
+  navigateAndMark("flowersIntroScreen", "domesticBriefingCompleted");
 });
 
 $("openFlowersCollection").addEventListener("click", () => {
-  navigateToScreen("flowersCollectionScreen");
+  navigateAndMark("flowersCollectionScreen", "flowersIntroCompleted");
 });
 
 $("continueFlowersStory").addEventListener("click", () => {
-  navigateToScreen("satisfactionSurveyScreen");
+  navigateAndMark("satisfactionSurveyScreen", "flowersGalleryCompleted");
 });
 
 const openLetterButton = $("openLetter");
@@ -396,6 +540,8 @@ if(openLetterButton && ballerinaPhoto && continueFromLetterButton){
       scene.classList.add("is-open");
       $("letterRevealCopy")?.classList.remove("hidden");
       continueFromLetterButton.classList.remove("hidden");
+      setProgressFlag("letterOpened");
+      saveProgress();
     }, 1000);
   });
 
@@ -405,7 +551,7 @@ if(openLetterButton && ballerinaPhoto && continueFromLetterButton){
   });
 
   continueFromLetterButton.addEventListener("click", () => {
-    navigateToScreen("sunday");
+    navigateAndMark("sunday", "letterCompleted");
   });
 }
 
@@ -427,6 +573,7 @@ function interactWithSurveySlider(index){
   }else if(!satisfactionSurveyState.submitted){
     $("submitSurvey").classList.remove("hidden");
   }
+  saveProgress();
 }
 
 [1, 2, 3].forEach(questionNumber => {
@@ -450,6 +597,7 @@ function interactWithSurveySlider(index){
     score.value = String(value);
     score.textContent = String(value);
     interactWithSurveySlider(index);
+    saveProgress();
   });
 });
 
@@ -459,6 +607,7 @@ $("submitSurvey").addEventListener("click", () => {
   $("submitSurvey").classList.add("hidden");
   $("surveyConfirmation").classList.remove("hidden");
   $("continueAfterSurvey").classList.remove("hidden");
+  saveProgress();
 });
 
 $("continueAfterSurvey").addEventListener("click", () => {
@@ -484,6 +633,8 @@ document.querySelectorAll(".evidence-trigger").forEach((trigger, index) => {
     const isExpanded = trigger.getAttribute("aria-expanded") === "true";
     trigger.setAttribute("aria-expanded", String(!isExpanded));
     caption.classList.toggle("hidden", isExpanded);
+    evidenceCaptionState[index] = !isExpanded;
+    saveProgress();
   });
 });
 $("sundayUnlock").addEventListener("click",()=>{
@@ -492,12 +643,14 @@ $("sundayUnlock").addEventListener("click",()=>{
     hide("sundayIntro");
     $("sundayStatus").textContent="Access granted";
     $("sundayIcon").textContent="✓";
+    setProgressFlag("sundayCodeUnlocked");
+    saveProgress();
   }else $("sundayCodeFeedback").textContent="Incorrect code. Please try again.";
 });
 
-$("openCulinaryFile").addEventListener("click",()=>navigateToScreen("culinaryFile"));
+$("openCulinaryFile").addEventListener("click",()=>navigateAndMark("culinaryFile", "sundayContinued"));
 
-$("continueToFinalInterrogation").addEventListener("click",()=>navigateToScreen("finalInterrogationScreen"));
+$("continueToFinalInterrogation").addEventListener("click",()=>navigateAndMark("finalInterrogationScreen", "culinaryCompleted"));
 
 function buildFinalInterrogation(){
   const container = $("finalInterrogationQuestions");
@@ -535,12 +688,14 @@ function buildFinalInterrogation(){
 
         if(answer === questionConfig.correctAnswer){
           finalInterrogationState.completed[index] = true;
+          if(finalInterrogationState.completed.every(Boolean))setProgressFlag("finalInterrogationCompleted");
           answers.querySelectorAll("button").forEach(option => {
             option.disabled = true;
             option.classList.toggle("is-correct", option === button);
           });
           feedback.classList.add("is-correct");
           feedback.textContent = questionConfig.successMessage;
+          saveProgress();
 
           window.setTimeout(() => {
             if(index < CONFIG.finalInterrogationQuestions.length - 1){
@@ -574,6 +729,8 @@ $("sundayCheck").addEventListener("click",()=>{
     hide("sundayPuzzle");reveal("sundayReveal");
     $("sundayStatus").textContent="Chapter complete";
     $("sundayIcon").textContent="✓";
+    setProgressFlag("sundayPuzzleCompleted");
+    saveProgress();
     $("sundayReveal").scrollIntoView({behavior:"smooth",block:"center"});
   }else $("sundayAnswerFeedback").textContent="Not quite. Think back to the place where you first met.";
 });
@@ -582,6 +739,8 @@ $("mondayUnlock").addEventListener("click",()=>{
     hide("mondayGate");reveal("mondayReveal");
     $("mondayStatus").textContent="Access granted";
     $("mondayIcon").textContent="✓";
+    setProgressFlag("mondayCodeUnlocked");
+    saveProgress();
   }else $("mondayCodeFeedback").textContent="Access denied. Monday's file is still classified.";
 });
 
@@ -607,6 +766,8 @@ $("revealRestaurant").addEventListener("click", event=>{
     messageStage.classList.add("hidden");
     messageStage.classList.remove("restaurant-message-leaving");
     destinationStage.classList.remove("restaurant-revealing");
+    setProgressFlag("restaurantRevealed");
+    saveProgress();
   },transitionDuration);
 });
 
@@ -615,7 +776,7 @@ $("openFinalSecret").addEventListener("click",()=>navigateToScreen("finalSecretA
 $("finalSecretForm").addEventListener("submit",event=>{
   event.preventDefault();
   if(CONFIG.finalSecretCode && accepted($("finalSecretCode").value,CONFIG.finalSecretCode)){
-    finalSecretUnlocked = true;
+    setProgressFlag("finalSecretUnlocked");
     $("finalSecretFeedback").textContent="Access granted.";
     navigateToScreen("finalSecretGift");
   }else{
@@ -629,6 +790,130 @@ $("yesBtn").addEventListener("click",()=>{
 $("evidenceBtn").addEventListener("click",()=>{
   $("finalReply").textContent="Additional evidence is available in the form of 19 printed photographs, unlimited hugs, and one very devoted girlfriend.";
 });
+
+function restoreSavedInterfaceState(){
+  if(progressFlags.squirrelCompleted)$("welcomeMessage").classList.remove("hidden");
+
+  if(progressFlags.ageQuizCompleted){
+    $("answerList").classList.add("hidden");
+    $("quizSuccess").classList.remove("hidden");
+  }
+  if(progressFlags.personalityQuizCompleted){
+    $("personalityAnswerList").classList.add("hidden");
+    $("personalitySuccessMessage").textContent = CONFIG.personalitySuccessMessage;
+    $("personalityQuizSuccess").classList.remove("hidden");
+  }
+
+  satisfactionSurveyState.scores.forEach((score, index) => {
+    const slider = $("surveySlider" + (index + 1));
+    const output = $("surveyScore" + (index + 1));
+    slider.value = String(score);
+    output.value = String(score);
+    output.textContent = String(score);
+    if(satisfactionSurveyState.interacted[index])$("surveyInstruction" + (index + 1)).classList.add("hidden");
+  });
+  for(let questionNumber = 2; questionNumber <= satisfactionSurveyState.revealedCount; questionNumber++){
+    const question = $("surveyQuestion" + questionNumber);
+    question.classList.remove("hidden");
+    question.setAttribute("aria-hidden", "false");
+  }
+  if(satisfactionSurveyState.interacted[2] && !satisfactionSurveyState.submitted)$("submitSurvey").classList.remove("hidden");
+  if(satisfactionSurveyState.submitted){
+    $("submitSurvey").classList.add("hidden");
+    $("surveyConfirmation").classList.remove("hidden");
+    $("continueAfterSurvey").classList.remove("hidden");
+  }
+
+  if(progressFlags.letterOpened){
+    const scene = $("letterScene");
+    if(scene){
+      scene.classList.add("is-opening", "is-open");
+      $("openLetter").disabled = true;
+      $("openLetter").setAttribute("aria-expanded", "true");
+      $("letterPhotoCard").setAttribute("aria-hidden", "false");
+      $("letterRevealCopy").classList.remove("hidden");
+      $("continueFromLetter").classList.remove("hidden");
+    }
+  }
+
+  evidenceCaptionState.forEach((isOpen, index) => {
+    if(!isOpen)return;
+    const trigger = document.querySelectorAll(".evidence-trigger")[index];
+    const caption = $("caption" + (index + 1));
+    if(trigger && caption){
+      trigger.setAttribute("aria-expanded", "true");
+      caption.classList.remove("hidden");
+    }
+  });
+
+  if(progressFlags.domesticAccessGranted){
+    $("domesticAccessScreen").classList.remove("unlocking");
+    $("domesticAccessButton").disabled = false;
+    $("domesticAccessButton").textContent = "CONTINUE TO DOMESTIC LIFE";
+    $("domesticAccessFeedback").textContent = "Access granted. Welcome to domestic life.";
+  }
+  if(progressFlags.sundayCodeUnlocked){
+    hide("sundayGate");
+    reveal("sundayUnlocked");
+    hide("sundayIntro");
+    $("sundayStatus").textContent = "Access granted";
+    $("sundayIcon").textContent = "✓";
+  }
+  if(progressFlags.sundayPuzzleCompleted){
+    hide("sundayPuzzle");
+    reveal("sundayReveal");
+    $("sundayStatus").textContent = "Chapter complete";
+    $("sundayIcon").textContent = "✓";
+  }
+  if(progressFlags.mondayCodeUnlocked){
+    hide("mondayGate");
+    reveal("mondayReveal");
+    $("mondayStatus").textContent = "Access granted";
+    $("mondayIcon").textContent = "✓";
+  }
+  if(progressFlags.restaurantRevealed){
+    hide("restaurantMessageStage");
+    reveal("restaurantDestinationStage");
+    $("revealRestaurant").disabled = true;
+  }
+
+  finalInterrogationState.completed.forEach((completed, index) => {
+    const question = $("finalQuestion" + (index + 1));
+    const shouldBeVisible = index === 0 || finalInterrogationState.completed[index - 1];
+    if(shouldBeVisible){
+      question.classList.remove("hidden");
+      question.setAttribute("aria-hidden", "false");
+    }
+    if(!completed)return;
+    const questionConfig = CONFIG.finalInterrogationQuestions[index];
+    const correctButton = [...question.querySelectorAll(".final-answer-option")]
+      .find(button => button.textContent === questionConfig.correctAnswer);
+    question.querySelectorAll(".final-answer-option").forEach(button => {
+      button.disabled = true;
+      button.classList.toggle("is-correct", button === correctButton);
+    });
+    const feedback = question.querySelector(".final-question-feedback");
+    feedback.classList.add("is-correct");
+    feedback.textContent = questionConfig.successMessage;
+  });
+  if(progressFlags.finalInterrogationCompleted)$("finalInterrogationComplete").classList.remove("hidden");
+}
+
+if(savedProgress){
+  restoreSavedInterfaceState();
+  // If authentication completed but the visitor closed the page during its
+  // unlock animation, resume at the first authenticated screen.
+  const screenToRestore = savedProgress.currentScreenId === "accessScreen" && progressFlags.authenticated
+    ? "squirrelScreen"
+    : savedProgress.currentScreenId;
+  if(screenToRestore !== "accessScreen"){
+    const resumingAuthentication = screenToRestore !== savedProgress.currentScreenId;
+    navigateToScreen(screenToRestore, resumingAuthentication ? {} : {
+      recordHistory: false,
+      historyIndex: savedProgress.navigationHistoryIndex
+    });
+  }
+}
 
 // Let the coordinator preview and personalise the 2–3 website photos.
 // Images are stored locally in this browser, not uploaded to a server.
