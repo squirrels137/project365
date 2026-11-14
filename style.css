@@ -414,13 +414,15 @@ body:has(.access-screen:not(.hidden)),body:has(.squirrel-screen:not(.hidden)){ba
 .bali-globe-wrap{width:min(100%,720px);margin:5px auto -2px}
 .bali-globe{display:block;width:100%;height:auto;overflow:visible}
 .bali-earth{stroke:#b18b55;stroke-width:1.5}
-.bali-globe-lines{fill:none;stroke:rgba(111,89,68,.25);stroke-width:1.2}
-.bali-continents{fill:#91a891}
-.bali-continent{fill:#91a891;stroke:#e9eee3;stroke-width:1.25;stroke-linejoin:round}
-.bali-flight-route{fill:none;stroke:#8b4148;stroke-width:2.5;stroke-dasharray:7 8;stroke-linecap:round;opacity:.9}
+.bali-globe-lines{fill:none;stroke:rgba(74,105,88,.22);stroke-width:1.2}
+.bali-continents{fill:#879c7e}
+.bali-continent{fill:#879c7e;stroke:#e9eee3;stroke-width:1.25;stroke-linejoin:round}
+.bali-flight-route{fill:none;stroke:#8b4148;stroke-width:2.5;stroke-dasharray:7 8;stroke-linecap:round;opacity:.95}
 .bali-route-point{fill:#8b4148;stroke:#fffaf1;stroke-width:3}
 .bali-route-destination{fill:#b18b55}
 .bali-plane{fill:#8b4148}
+.bali-map-label{fill:#6d3038;font:700 9px Arial,Helvetica,sans-serif;letter-spacing:1.2px}
+.bali-map-label-destination{fill:#6c624f}
 .bali-cities{display:flex;align-items:center;justify-content:center;gap:clamp(18px,5vw,54px);margin:0 auto 24px;color:#493d35}
 .bali-cities div{display:grid;gap:5px}
 .bali-cities small{color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.17em}
@@ -527,10 +529,12 @@ body:has(.access-screen:not(.hidden)),body:has(.squirrel-screen:not(.hidden)){ba
 
 /* Final Surprise chapter: private recovery voucher */
 #finalSecretGift>.chapter-document{width:min(100%,1040px);padding:clamp(20px,4vw,46px)}
+.stage-screen:has(#finalSecretGift){background:radial-gradient(ellipse at 50% 18%,#f4ebd9 0,#e8dfd1 66%,#d5d0bc 100%)}
 .thai-voucher{position:relative;overflow:hidden;padding:clamp(20px,4vw,42px);border:1px solid rgba(177,139,85,.7);outline:1px dashed rgba(177,139,85,.7);outline-offset:-9px;background:linear-gradient(145deg,#fbf6ec 0%,#f2e6d4 100%);box-shadow:0 12px 30px rgba(55,43,31,.12);text-align:center;animation:recovery-voucher-in .8s ease both}
 .thai-voucher:before,.thai-voucher:after{position:absolute;width:140px;height:140px;border:1px solid rgba(139,65,72,.12);border-radius:50%;content:"";pointer-events:none}
 .thai-voucher:before{top:-90px;left:-70px}.thai-voucher:after{right:-74px;bottom:-95px}
 .thai-voucher>.flowers-kicker{margin:4px 0 12px;color:var(--red);letter-spacing:.2em}
+.thai-voucher-mark{display:inline-block;margin:1px auto 8px;color:#97764c;font-size:9px;letter-spacing:.19em}
 .thai-voucher h1{max-width:850px;margin:10px auto 15px;color:#342d28;font-size:clamp(34px,6.2vw,64px);line-height:1.08;letter-spacing:-.025em}
 .thai-voucher h1 span{display:block;margin-top:5px;color:var(--red);font-size:clamp(21px,3.8vw,35px);font-style:italic;font-weight:400;letter-spacing:.01em}
 .thai-voucher-intro,.thai-gift-message{max-width:760px;margin:0 auto;color:#554c44;font-family:var(--serif);font-size:clamp(17px,2.3vw,21px);line-height:1.7}
@@ -539,8 +543,15 @@ body:has(.access-screen:not(.hidden)),body:has(.squirrel-screen:not(.hidden)){ba
 .thai-gift-seal{display:inline-block;margin:3px auto 9px;padding:7px 13px;border:1px solid var(--red);color:var(--red);font-size:9px;font-weight:700;letter-spacing:.2em;transform:rotate(-1deg)}
 .thai-gift-title{margin:8px auto 14px;color:#79593a;font-family:var(--serif);font-size:clamp(25px,4.2vw,41px);line-height:1.25;letter-spacing:.035em}
 .thai-gift-title span{font-size:.82em}
-.thai-gift-message{max-width:700px;font-size:clamp(17px,2.4vw,22px);font-style:italic}
 .thai-gift-date{display:inline-block;margin:22px auto 4px;padding:10px 16px;border:1px dashed var(--gold);color:#6f5944;font-size:10px;font-weight:700;letter-spacing:.16em}
+.thai-calendar{display:flex;align-items:center;justify-content:center;gap:15px;width:min(100%,500px);margin:20px auto 3px;padding:16px 18px;border:1px solid rgba(177,139,85,.72);background:rgba(255,253,248,.72);box-shadow:0 7px 18px rgba(55,43,31,.08);text-align:left}
+.thai-calendar-icon{flex:0 0 42px;width:42px;color:#617461}
+.thai-calendar div{display:grid;gap:7px}
+.thai-calendar strong{color:#79593a;font-family:var(--serif);font-size:clamp(19px,3vw,25px);font-weight:400;letter-spacing:.07em}
+.thai-calendar span{color:#6f5944;font-size:9px;font-weight:700;letter-spacing:.12em;line-height:1.6}
+.thai-closing{margin:23px auto 2px;color:var(--red);font-family:var(--serif);font-size:clamp(26px,4.4vw,40px);font-style:italic;text-align:center;animation:recovery-voucher-in .9s .35s ease both}
+.thai-closing span{display:inline-block;font-style:normal;animation:heart-glow 2.8s ease-in-out infinite}
+@keyframes heart-glow{50%{transform:scale(1.1);filter:drop-shadow(0 0 5px #b76565)}}
 @keyframes recovery-voucher-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:540px){#finalSecretGift>.chapter-document{padding:17px}.thai-voucher{padding:27px 15px}.thai-spa-art{margin:18px auto 15px;padding:4px}.thai-gift-date{font-size:9px;letter-spacing:.1em}}
-@media(prefers-reduced-motion:reduce){.thai-voucher,.thai-spa-art{animation:none}}
+@media(max-width:540px){#finalSecretGift>.chapter-document{padding:17px}.thai-voucher{padding:27px 15px}.thai-spa-art{margin:18px auto 15px;padding:4px}.thai-gift-date{font-size:9px;letter-spacing:.1em}.thai-calendar{gap:10px;padding:13px 12px}.thai-calendar-icon{flex-basis:34px;width:34px}.thai-calendar span{font-size:8px;letter-spacing:.08em}}
+@media(prefers-reduced-motion:reduce){.thai-voucher,.thai-spa-art,.thai-closing,.thai-closing span{animation:none}}

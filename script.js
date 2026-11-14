@@ -140,7 +140,7 @@ function isValidProgressRecord(record){
   if(!Array.isArray(record.unlockedScreens) || !record.unlockedScreens.length)return false;
   if(!record.navigationHistory.every(id => isKnownScreenId(id) && record.unlockedScreens.includes(id)))return false;
   if(!Array.isArray(record.unlockedScreens) || !record.unlockedScreens.every(isKnownScreenId))return false;
-  if(!Number.isInteger(record.furthestUnlockedChapter) || record.furthestUnlockedChapter < 0 || record.furthestUnlockedChapter > 6)return false;
+  if(!Number.isInteger(record.furthestUnlockedChapter) || record.furthestUnlockedChapter < 0 || record.furthestUnlockedChapter > 7)return false;
   if(!record.flags || !PROGRESS_FLAG_NAMES.every(name => typeof record.flags[name] === "boolean"))return false;
   if(!Array.isArray(record.finalInterrogationCompleted) || record.finalInterrogationCompleted.length !== 3 || !record.finalInterrogationCompleted.every(value => typeof value === "boolean"))return false;
   if(!Array.isArray(record.evidenceCaptions) || record.evidenceCaptions.length !== 3 || !record.evidenceCaptions.every(value => typeof value === "boolean"))return false;
@@ -236,6 +236,7 @@ function updateStorylineProgress(currentChapter){
     indicator.hidden = !visible;
     indicator.classList.toggle("active", active);
     indicator.classList.toggle("complete", visible && chapter < currentChapter);
+    indicator.classList.toggle("upcoming", chapter > furthestUnlockedChapter);
     indicator.setAttribute("aria-current", active ? "step" : "false");
   });
   document.querySelectorAll("[data-chapter-connector]").forEach(connector => {
@@ -368,8 +369,6 @@ function navigateToScreen(screenId, options = {}){
       target.classList.remove("bali-reveal");
       void target.offsetWidth;
       target.classList.add("bali-reveal");
-      const flightMotion = $("baliFlightMotion");
-      if(flightMotion && typeof flightMotion.beginElement === "function")flightMotion.beginElement();
     }
     if(target.id === "culinaryFile"){
       target.classList.remove("culinary-reveal");

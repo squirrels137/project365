@@ -60,16 +60,18 @@
 
   <nav class="stage-progress" id="stageProgress" aria-label="Investigation storyline">
     <span class="stage-step active" data-chapter-indicator="1" aria-current="step"><b>01</b><small>BRIEFING</small></span>
-    <span class="stage-connector" aria-hidden="true"></span>
-    <span class="stage-step" data-chapter-indicator="2"><b>02</b><small>FIRST DATES</small></span>
-    <span class="stage-connector" aria-hidden="true"></span>
-    <span class="stage-step" data-chapter-indicator="3"><b>03</b><small>BALI</small></span>
-    <span class="stage-connector" aria-hidden="true"></span>
-    <span class="stage-step" data-chapter-indicator="4"><b>04</b><small>LIVING TOGETHER</small></span>
-    <span class="stage-connector" aria-hidden="true"></span>
-    <span class="stage-step upcoming" data-chapter-indicator="5" aria-label="Sunday, upcoming"><b>05</b><small>SUNDAY</small></span>
-    <span class="stage-connector" aria-hidden="true"></span>
-    <span class="stage-step upcoming" data-chapter-indicator="6" aria-label="Monday, upcoming"><b>06</b><small>MONDAY</small></span>
+    <span class="stage-connector" data-chapter-connector="2" aria-hidden="true" hidden></span>
+    <span class="stage-step" data-chapter-indicator="2" hidden><b>02</b><small>FIRST DATES</small></span>
+    <span class="stage-connector" data-chapter-connector="3" aria-hidden="true" hidden></span>
+    <span class="stage-step" data-chapter-indicator="3" hidden><b>03</b><small>BALI</small></span>
+    <span class="stage-connector" data-chapter-connector="4" aria-hidden="true" hidden></span>
+    <span class="stage-step" data-chapter-indicator="4" hidden><b>04</b><small>LIVING TOGETHER</small></span>
+    <span class="stage-connector" data-chapter-connector="5" aria-hidden="true" hidden></span>
+    <span class="stage-step upcoming" data-chapter-indicator="5" aria-label="Sunday" hidden><b>05</b><small>SUNDAY</small></span>
+    <span class="stage-connector" data-chapter-connector="6" aria-hidden="true" hidden></span>
+    <span class="stage-step upcoming" data-chapter-indicator="6" aria-label="Monday" hidden><b>06</b><small>MONDAY</small></span>
+    <span class="stage-connector" data-chapter-connector="7" aria-hidden="true" hidden></span>
+    <span class="stage-step upcoming" data-chapter-indicator="7" aria-label="Final surprise" hidden><b>07</b><small>FINAL SURPRISE</small></span>
   </nav>
 
   <main class="sequence-main" id="sequenceMain">
@@ -178,11 +180,11 @@
         <h1 id="baliTitle" tabindex="-1">ESCAPING THE NETHERLANDS WEATHER</h1>
         <p class="bali-subtitle">Part 1 — Bali</p>
         <div class="bali-globe-wrap">
-          <svg class="bali-globe" viewBox="0 0 720 390" role="img" aria-labelledby="baliMapTitle baliMapDescription">
+          <svg class="bali-globe" viewBox="0 0 720 390" role="img" aria-labelledby="baliMapTitle baliMapDescription" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title id="baliMapTitle">Flight route from Amsterdam to Bali</title>
-            <desc id="baliMapDescription">A small plane travels along a curved route across a stylised globe from the Netherlands to Indonesia.</desc>
+            <desc id="baliMapDescription">A small plane follows a curved route from Amsterdam in Europe to Bali in Southeast Asia across an illustrated Earth with visible continents.</desc>
             <defs>
-              <radialGradient id="baliEarthGradient" cx="38%" cy="32%" r="72%"><stop offset="0" stop-color="#f7e8c9"></stop><stop offset="1" stop-color="#d5bea0"></stop></radialGradient>
+              <radialGradient id="baliEarthGradient" cx="38%" cy="32%" r="72%"><stop offset="0" stop-color="#e1eadb"></stop><stop offset="1" stop-color="#a9c3b4"></stop></radialGradient>
               <clipPath id="baliEarthClip"><circle cx="360" cy="195" r="157"></circle></clipPath>
             </defs>
             <circle class="bali-earth" cx="360" cy="195" r="157" fill="url(#baliEarthGradient)"></circle>
@@ -192,12 +194,28 @@
               <ellipse cx="360" cy="195" rx="157" ry="52"></ellipse>
               <ellipse cx="360" cy="195" rx="157" ry="105"></ellipse>
             </g>
-            <path class="bali-flight-route" d="M 208 225 C 262 45 450 54 514 220"></path>
-            <circle class="bali-route-point" cx="208" cy="225" r="7"></circle>
-            <circle class="bali-route-point bali-route-destination" cx="514" cy="220" r="7"></circle>
-            <g class="bali-plane" transform="translate(208 225)">
+            <g class="bali-continents" clip-path="url(#baliEarthClip)">
+              <!-- North and South America -->
+              <path class="bali-continent" d="M218 139 235 124 254 119 269 126 282 123 298 132 318 136 329 148 320 158 307 159 302 171 289 177 283 191 269 199 263 215 252 218 245 207 232 200 227 186 216 181 212 166 203 158z"></path>
+              <path class="bali-continent" d="M282 210 296 204 307 210 313 223 308 238 301 251 297 269 289 285 282 277 285 259 278 244 275 229z"></path>
+              <path class="bali-continent" d="M266 104 278 95 293 97 301 106 293 115 278 114z"></path>
+              <!-- Europe, Africa, Asia and the Indonesian archipelago -->
+              <path class="bali-continent" d="M326 151 334 138 346 135 354 128 368 131 378 125 389 132 400 130 411 137 426 138 435 146 449 147 456 156 449 164 436 164 429 172 414 169 404 176 393 169 382 173 376 162 363 161 356 153 344 158 337 155z"></path>
+              <path class="bali-continent" d="M341 166 354 159 368 164 379 173 386 188 382 203 389 217 381 232 374 249 362 263 355 252 351 237 343 224 339 207 332 194 334 179z"></path>
+              <path class="bali-continent" d="M390 133 405 124 423 124 438 130 453 132 468 141 483 143 493 153 509 157 518 169 510 180 497 177 489 186 476 183 467 191 453 187 444 196 433 190 422 194 413 184 401 182 395 172 383 166 380 154z"></path>
+              <path class="bali-continent" d="M396 185 407 181 417 188 423 200 419 212 414 224 407 232 401 221 396 211 389 201z"></path>
+              <path class="bali-continent" d="M439 188 451 185 462 192 467 201 480 203 490 213 505 217 513 226 504 233 491 229 481 223 470 224 460 216 451 209 441 205z"></path>
+              <path class="bali-continent" d="M464 248 477 242 492 245 503 254 506 266 496 274 481 275 469 268 461 258z"></path>
+              <!-- Japan and small islands -->
+              <path class="bali-continent" d="M500 194q7 3 4 10l-5 6-4-5zM486 235q5 2 3 7l-5 2z"></path>
+            </g>
+            <path class="bali-flight-route" id="baliFlightPath" d="M350 145 C381 73 451 83 465 230"></path>
+            <circle class="bali-route-point" cx="350" cy="145" r="7"></circle>
+            <circle class="bali-route-point bali-route-destination" cx="465" cy="230" r="7"></circle>
+            <text class="bali-map-label" x="310" y="136">AMS</text>
+            <text class="bali-map-label bali-map-label-destination" x="476" y="239">BALI</text>
+            <g class="bali-plane" transform="translate(408 100)">
               <path d="M-14-4h9l7-9h4l-3 9 12 3v3L3 3l3 9H2l-7-8h-9z"></path>
-              <animateMotion id="baliFlightMotion" path="M 0 0 C 54 -180 242 -171 306 -5" dur="4s" begin="indefinite" rotate="auto" fill="freeze"></animateMotion>
             </g>
           </svg>
         </div>
@@ -466,7 +484,7 @@
       </div>
     </section>
 
-    <section class="panel" id="finalSecretAccess" data-stage="9" aria-labelledby="finalSecretTitle">
+    <section class="panel" id="finalSecretAccess" data-stage="9" data-chapter="7" aria-labelledby="finalSecretTitle">
       <p class="flowers-kicker">MONDAY · FINAL CLEARANCE</p>
       <h1 id="finalSecretTitle" tabindex="-1">ONE LAST SURPRISE</h1>
       <p class="final-secret-copy">Your anniversary mission isn't over just yet. There's still one more surprise waiting for you.</p>
@@ -478,10 +496,68 @@
       </form>
     </section>
 
-    <section class="panel" id="finalSecretGift" data-stage="9" aria-labelledby="finalSecretGiftTitle">
-      <p class="flowers-kicker">MONDAY · FINAL FILE</p>
-      <h1 id="finalSecretGiftTitle" tabindex="-1">THE FINAL SURPRISE</h1>
-      <p class="final-secret-copy">Access granted. Your final surprise is waiting for you.</p>
+    <section class="panel" id="finalSecretGift" data-stage="9" data-chapter="7" aria-labelledby="finalSecretGiftTitle">
+      <article class="thai-voucher">
+        <p class="flowers-kicker">PROJECT 365 · FINAL SURPRISE</p>
+        <span class="thai-voucher-mark" aria-hidden="true">✦ &nbsp; FILE 365 &nbsp; ✦</span>
+        <h1 id="finalSecretGiftTitle" tabindex="-1">MISSION COMPLETE <span>— RECOVERY PROTOCOL</span></h1>
+        <p class="thai-voucher-intro"> Being able to relax the whole time is the goal, and a little massage can certainly help ❤️ </p>
+
+        <figure class="thai-spa-art">
+          <svg viewBox="0 0 760 360" role="img" aria-labelledby="thaiSpaTitle thaiSpaDescription" xmlns="http://www.w3.org/2000/svg">
+            <title id="thaiSpaTitle">A peaceful tropical spa at sunset</title>
+            <desc id="thaiSpaDescription">A warm sunset framed by tropical leaves, with folded towels, candlelight and a lotus bowl.</desc>
+            <defs>
+              <linearGradient id="spaSky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d98d68"/><stop offset=".58" stop-color="#efc18a"/><stop offset="1" stop-color="#f5dfb8"/></linearGradient>
+              <linearGradient id="spaWater" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#637d69"/><stop offset="1" stop-color="#273f36"/></linearGradient>
+              <linearGradient id="spaCandle" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff0b3"/><stop offset="1" stop-color="#d9a85e"/></linearGradient>
+              <clipPath id="spaArch"><path d="M165 302V157a215 215 0 0 1 430 0v145z"/></clipPath>
+              <filter id="spaGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="12"/></filter>
+            </defs>
+            <rect width="760" height="360" rx="8" fill="#34483d"/>
+            <path d="M125 323V156a255 255 0 0 1 510 0v167" fill="none" stroke="#c9a66f" stroke-width="12" opacity=".8"/>
+            <path d="M148 318V156a232 232 0 0 1 464 0v162" fill="none" stroke="#f2dfbb" stroke-width="3" opacity=".75"/>
+            <g clip-path="url(#spaArch)">
+              <rect x="160" y="55" width="440" height="258" fill="url(#spaSky)"/>
+              <circle cx="382" cy="177" r="62" fill="#f7d99b" opacity=".42" filter="url(#spaGlow)"/>
+              <circle cx="382" cy="177" r="39" fill="#f7d99b"/>
+              <path d="M145 235q85-52 167-5t172 0 142 11v88H145z" fill="#879276"/>
+              <path d="M145 267q90-38 170-4t171-1 140 7v70H145z" fill="url(#spaWater)"/>
+              <path d="M213 288q53-12 99 0m70 9q52-14 106 0m-6-29q42-9 81 0" fill="none" stroke="#d9c69a" stroke-width="3" opacity=".56"/>
+              <path d="M228 246q-19-55 0-118m0 57q-42-31-53-69m53 89q34-36 48-72m247 111q18-55 0-118m0 58q42-31 53-69m-53 88q-34-36-48-72" fill="none" stroke="#314a3b" stroke-width="7" stroke-linecap="round"/>
+              <g fill="#536b4d"><ellipse cx="194" cy="125" rx="10" ry="32" transform="rotate(-44 194 125)"/><ellipse cx="252" cy="153" rx="10" ry="34" transform="rotate(38 252 153)"/><ellipse cx="570" cy="125" rx="10" ry="32" transform="rotate(44 570 125)"/><ellipse cx="512" cy="153" rx="10" ry="34" transform="rotate(-38 512 153)"/></g>
+            </g>
+            <path d="M105 313h550" stroke="#b99461" stroke-width="2" opacity=".8"/>
+            <g transform="translate(252 258)">
+              <rect x="0" y="38" width="112" height="31" rx="4" fill="#ead9bc"/>
+              <rect x="8" y="20" width="96" height="24" rx="5" fill="#fbf4e7"/>
+              <path d="M18 20q25-11 47 0m-40 18h74" fill="none" stroke="#c8b394" stroke-width="2"/>
+              <rect x="92" y="0" width="13" height="27" rx="3" fill="url(#spaCandle)"/>
+              <path d="M98 0q-10-12 0-22 10 10 0 22" fill="#f6c56d"/>
+            </g>
+            <g transform="translate(477 273)">
+              <ellipse cx="0" cy="35" rx="58" ry="19" fill="#c7a477"/>
+              <ellipse cx="0" cy="30" rx="47" ry="12" fill="#597765"/>
+              <path d="M0 26q-25-16-26-2 12 12 26 2m0 0q25-16 26-2-12 12-26 2m0 0q-9-25 0-27 9 2 0 27" fill="#e8c78d"/>
+              <circle cy="20" r="5" fill="#f6e6be"/>
+            </g>
+            <g fill="#d5b679" opacity=".82"><circle cx="119" cy="86" r="2"/><circle cx="651" cy="112" r="2"/><circle cx="625" cy="279" r="2"/><circle cx="91" cy="274" r="2"/></g>
+          </svg>
+        </figure>
+
+        <div class="thai-gift-seal">A GIFT FOR TWO</div>
+        <h2 class="thai-gift-title">A THAI MASSAGE <span>FOR TWO 🇹🇭</span></h2>
+
+        <div class="thai-calendar" aria-label="A decorative calendar card. Choose a date together.">
+          <svg class="thai-calendar-icon" viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="5" y="9" width="38" height="34" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M5 18h38M15 5v9m18-9v9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="m18 30 4 4 9-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div><strong>JUST PICK A DATE!</strong><span>DATE &amp; LOCATION — TO BE ANNOUNCED</span></div>
+        </div>
+      </article>
+      <p class="thai-closing">I love you amore <span aria-hidden="true">❤️</span></p>
     </section>
 
     <section class="panel hidden" id="final">
